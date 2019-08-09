@@ -37,6 +37,20 @@ router.get('/update_customer', (req, res) => {
     });
 });
 
+router.post('/update_customer', (req, res) => {
+    var stmt  = 'select * from customer where email = ?';
+    let returnerror;
+    connection.query(stmt,req.body.email, (error, results) => {
+        if(results.length == 0){
+            returnerror = true;
+        }
+        res.render('update_customer', {
+            returnerror,
+            results
+        });
+    });
+});
+
 router.get('/delete_customer/:id', (req, res) => {
     var stmt = 'delete from customer where id = ?';
     connection.query(stmt, req.params.id, (error) => {
